@@ -1,21 +1,19 @@
-import { connectLocalDB } from '@services/db-local.config';
 import * as dynamoose from 'dynamoose';
 import * as uuid from 'node-uuid';
-connectLocalDB(dynamoose);
 
 export interface PromoBody {
-  id: number;
+  id?: string;
   title: string;
   discount: number;
 }
 export class Promo implements PromoBody {
-  public id: number;
+  public id?: string;
   public title: string;
   public discount: number;
 }
 export const PromoSchema = new dynamoose.Schema({
   id: {
-    type: Number,
+    type: String,
     hashKey: true,
     default: uuid.v4,
   },
@@ -24,6 +22,10 @@ export const PromoSchema = new dynamoose.Schema({
   },
   discount: {
     type: Number,
+    validate: (value: number) => value > 5 && value < 91,
   },
 });
-export const PromoModel = dynamoose.model('Promo', PromoSchema);
+export const PromoModel = dynamoose.model('Promo', PromoSchema, {
+  create: true,
+  update: true,
+});

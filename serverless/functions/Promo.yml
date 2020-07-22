@@ -1,0 +1,16 @@
+createPromo:
+  handler: api/promo/handler.createPromo
+  tags:
+    client: ${file(env.yml):${opt:stage, self:provider.stage}.CLIENT}
+  timeout: 28
+  events:
+    - http:
+        path: api/promo/create
+        method: post
+        integration: lambda
+        cors: true
+        response:
+          headers:
+            Access-Control-Allow-Origin: "'*'"
+            Content-Type: "'application/json'"
+          template: $input.json('$')
