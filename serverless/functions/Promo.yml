@@ -14,3 +14,20 @@ createPromo:
             Access-Control-Allow-Origin: "'*'"
             Content-Type: "'application/json'"
           template: $input.json('$')
+
+applyPromo:
+  handler: api/promo/handler.applyPromo
+  tags:
+    client: ${file(env.yml):${opt:stage, self:provider.stage}.CLIENT}
+  timeout: 28
+  events:
+    - http:
+        path: api/promo/apply
+        method: post
+        integration: lambda
+        cors: true
+        response:
+          headers:
+            Access-Control-Allow-Origin: "'*'"
+            Content-Type: "'application/json'"
+          template: $input.json('$')

@@ -1,5 +1,5 @@
 import { PromoModel } from '@models/DynamoDB/promo.model';
-import { CreatePromoParams } from './promo.interfase';
+import { ApplyPromoParams, CreatePromoParams } from './promo.interfase';
 
 export class PromoService {
   async createPromo(params: CreatePromoParams) {
@@ -10,6 +10,23 @@ export class PromoService {
     }
   }
   async getPromos() {
-    return PromoModel.scan();
+    try {
+      return await PromoModel.scan().all().exec();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async applyPromo(params: ApplyPromoParams) {
+    try {
+      const response: CreatePromoParams[] = await PromoModel.query({ title: { contains: params.title } }).exec();
+      return response;
+      // if (response[0].discount) {
+      //   return response[0].discount;
+      // } else {
+      //   return 1;
+      // }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

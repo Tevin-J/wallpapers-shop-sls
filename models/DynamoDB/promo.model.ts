@@ -1,6 +1,15 @@
 import * as dynamoose from 'dynamoose';
 import * as uuid from 'node-uuid';
-
+import AWS = require('aws-sdk');
+dynamoose.aws.ddb.set(
+  new AWS.DynamoDB({
+    endpoint: 'http://localhost:8000',
+    sslEnabled: false,
+    region: 'us-east-1',
+    accessKeyId: 'key',
+    secretAccessKey: 'secret',
+  })
+);
 export interface PromoBody {
   id?: string;
   title: string;
@@ -25,7 +34,4 @@ export const PromoSchema = new dynamoose.Schema({
     validate: (value: number) => value > 5 && value < 91,
   },
 });
-export const PromoModel = dynamoose.model('Promo', PromoSchema, {
-  create: true,
-  update: true,
-});
+export const PromoModel = dynamoose.model('Promo', PromoSchema);

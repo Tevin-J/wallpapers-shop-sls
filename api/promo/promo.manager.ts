@@ -1,4 +1,4 @@
-import { CreatePromoParams } from './promo.interfase';
+import { ApplyPromoParams, CreatePromoParams } from './promo.interfase';
 import { PromoService } from './promo.service';
 
 export class PromoManager {
@@ -9,7 +9,11 @@ export class PromoManager {
   }
 
   async createPromo(createPromoParams: CreatePromoParams) {
-    return await this.service.createPromo(createPromoParams);
-    //return await this.service.getPromos();
+    await this.service.createPromo(createPromoParams);
+    return await this.service.getPromos();
+  }
+
+  async applyPromo(applyPromoParams: ApplyPromoParams) {
+    return await this.service.applyPromo(applyPromoParams);
   }
 }
