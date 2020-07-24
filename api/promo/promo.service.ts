@@ -18,13 +18,14 @@ export class PromoService {
   }
   async applyPromo(params: ApplyPromoParams) {
     try {
-      const response: CreatePromoParams[] = await PromoModel.query({ title: { contains: params.title } }).exec();
-      return response;
-      // if (response[0].discount) {
-      //   return response[0].discount;
-      // } else {
-      //   return 1;
-      // }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const response: CreatePromoParams[] = await PromoModel.scan('title').eq(params.title).exec();
+      if (response[0]) {
+        return 1 - response[0].discount / 100;
+      } else {
+        return 1;
+      }
     } catch (e) {
       console.log(e);
     }

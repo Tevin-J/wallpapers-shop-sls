@@ -1,3 +1,4 @@
+import { GetPurchaseStatusResponse } from './purchase.interfase';
 import { PurchaseService } from './purchase.service';
 
 export class PurchaseManager {
@@ -5,7 +6,7 @@ export class PurchaseManager {
   constructor() {
     this.service = new PurchaseService();
   }
-  getPurchaseStatus(): number {
+  getPurchaseStatus(): GetPurchaseStatusResponse {
     return this.service.getPurchaseStatus();
   }
 }

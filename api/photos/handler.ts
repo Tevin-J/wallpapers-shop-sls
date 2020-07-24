@@ -8,7 +8,7 @@ export async function getPhotos(event) {
   log(event);
   const page = event.query.page ? event.query.page : 1;
   const perPage = event.query.perPage ? event.query.perPage : 30;
-  const clientId = 'Z2U-DGy55aYJGgH-2m8y7mNMlwXSEXw0tWsxs4k-snM';
+  const clientId = event.query.clientId;
   try {
     const manager = new PhotosManager();
     const unsplashService = new UnsplashService();
@@ -22,14 +22,18 @@ export async function getPhotos(event) {
 export async function searchPhotos(event) {
   log(event);
   const params: SearchPhotosParams = {
-    query: event.query.query,
-    clientId: 'Z2U-DGy55aYJGgH-2m8y7mNMlwXSEXw0tWsxs4k-snM',
+    query: event.query.term,
+    clientId: event.query.clientId,
   };
   if (event.query.page) {
     params.page = event.query.page;
+  } else {
+    params.page = 1;
   }
   if (event.query.perPage) {
     params.perPage = event.query.perPage;
+  } else {
+    params.perPage = 30;
   }
   if (event.query.color) {
     params.color = event.query.color;
@@ -39,12 +43,6 @@ export async function searchPhotos(event) {
   }
   if (event.query.price) {
     params.price = event.query.price;
-  }
-  if (!event.query.page) {
-    params.page = 1;
-  }
-  if (!event.query.perPage) {
-    params.perPage = 30;
   }
   try {
     const manager = new PhotosManager();

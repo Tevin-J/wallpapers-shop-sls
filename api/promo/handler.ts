@@ -17,6 +17,16 @@ export async function createPromo(event) {
   }
 }
 
+export async function getPromos(event) {
+  log(event);
+  try {
+    const manager = new PromoManager();
+    return await manager.getPromos();
+  } catch (e) {
+    errorHandler(e);
+  }
+}
+
 export async function applyPromo(event) {
   log(event);
   try {

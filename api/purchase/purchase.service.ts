@@ -1,5 +1,6 @@
 export class PurchaseService {
-  getPurchaseStatus(): number {
-    return Math.round(Math.random());
+  getPurchaseStatus() {
+    const result = Math.round(Math.random());
+    return { num: result };
   }
 }

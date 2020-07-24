@@ -1,11 +1,11 @@
-createPromo:
-  handler: api/promo/handler.createPromo
+createOrder:
+  handler: api/order/handler.createOrder
   tags:
     client: ${file(env.yml):${opt:stage, self:provider.stage}.CLIENT}
   timeout: 28
   events:
     - http:
-        path: api/promo/create
+        path: api/order
         method: post
         integration: lambda
         cors: true
@@ -15,32 +15,15 @@ createPromo:
             Content-Type: "'application/json'"
           template: $input.json('$')
 
-getPromos:
-  handler: api/promo/handler.getPromos
+getOrders:
+  handler: api/order/handler.getOrders
   tags:
     client: ${file(env.yml):${opt:stage, self:provider.stage}.CLIENT}
   timeout: 28
   events:
     - http:
-        path: api/promo
+        path: api/order
         method: get
-        integration: lambda
-        cors: true
-        response:
-          headers:
-            Access-Control-Allow-Origin: "'*'"
-            Content-Type: "'application/json'"
-          template: $input.json('$')
-
-applyPromo:
-  handler: api/promo/handler.applyPromo
-  tags:
-    client: ${file(env.yml):${opt:stage, self:provider.stage}.CLIENT}
-  timeout: 28
-  events:
-    - http:
-        path: api/promo/apply
-        method: post
         integration: lambda
         cors: true
         response:

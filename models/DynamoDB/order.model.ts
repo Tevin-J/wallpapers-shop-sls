@@ -1,15 +1,22 @@
 import * as dynamoose from 'dynamoose';
 import * as uuid from 'node-uuid';
-// import { connectLocalDB } from '@services/db-local.config';
-// connectLocalDB(dynamoose);
-
+import AWS = require('aws-sdk');
+dynamoose.aws.ddb.set(
+  new AWS.DynamoDB({
+    endpoint: 'http://localhost:8000',
+    sslEnabled: false,
+    region: 'us-east-1',
+    accessKeyId: 'key',
+    secretAccessKey: 'secret',
+  })
+);
 export interface ItemSchema {
-  id: number;
+  id?: string;
   photoId: string;
   url: string;
 }
 export interface OrderSchema {
-  id: number;
+  id?: string;
   cost: number;
   promo?: string;
   items: ItemSchema[];
@@ -20,7 +27,7 @@ export interface OrderSchema {
 export const OrderSchema = new dynamoose.Schema(
   {
     id: {
-      type: Number,
+      type: String,
       hashKey: true,
       default: uuid.v4,
     },
@@ -39,7 +46,7 @@ export const OrderSchema = new dynamoose.Schema(
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             id: {
-              type: Number,
+              type: String,
               default: uuid.v4,
             },
             photoId: {

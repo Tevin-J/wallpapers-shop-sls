@@ -9,7 +9,10 @@ export class PromoManager {
   }
 
   async createPromo(createPromoParams: CreatePromoParams) {
-    await this.service.createPromo(createPromoParams);
+    return await this.service.createPromo(createPromoParams);
+  }
+
+  async getPromos() {
     return await this.service.getPromos();
   }
 
