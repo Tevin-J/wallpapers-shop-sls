@@ -1,13 +1,22 @@
+import { AppError, CommonErrors } from '@helper/app-error';
 import { UnsplashService } from '@services/unsplash.service';
 import { GetPhotosParams, Photo, SearchPhotosParams } from './photos.interface';
 
 export class PhotosService {
   async getPhotos(params: GetPhotosParams, unsplashService: UnsplashService) {
-    return await unsplashService.getPhotos(params);
+    try {
+      return await unsplashService.getPhotos(params);
+    } catch (e) {
+      throw new AppError(CommonErrors.InternalServerError, e.message);
+    }
   }
 
   async searchPhotos(params: SearchPhotosParams, unsplashService: UnsplashService) {
-    return await unsplashService.searchPhotos(params);
+    try {
+      return await unsplashService.searchPhotos(params);
+    } catch (e) {
+      throw new AppError(CommonErrors.InternalServerError, e.message);
+    }
   }
 
   getDesiredProps(photos: any): Photo[] {

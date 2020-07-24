@@ -1,3 +1,4 @@
+import { AppError, CommonErrors } from '@helper/app-error';
 import { OrderModel } from '@models/DynamoDB/order.model';
 import { CreateOrderParams } from './order.interface';
 
@@ -6,7 +7,7 @@ export class OrderService {
     try {
       return await OrderModel.create(params);
     } catch (e) {
-      console.log(e);
+      throw new AppError(CommonErrors.InternalServerError, e.message);
     }
   }
 
@@ -14,7 +15,7 @@ export class OrderService {
     try {
       return await OrderModel.scan().all().exec();
     } catch (e) {
-      console.log(e);
+      throw new AppError(CommonErrors.InternalServerError, e.message);
     }
   }
 }

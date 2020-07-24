@@ -1,3 +1,4 @@
+import { AppError, CommonErrors } from '@helper/app-error';
 import { ApplyPromoParams, CreatePromoParams } from './promo.interfase';
 import { PromoService } from './promo.service';
 
@@ -9,6 +10,9 @@ export class PromoManager {
   }
 
   async createPromo(createPromoParams: CreatePromoParams) {
+    if (!createPromoParams.discount || !createPromoParams.title) {
+      throw new AppError(CommonErrors.BadRequest, 'Incorrect request body');
+    }
     return await this.service.createPromo(createPromoParams);
   }
 
@@ -17,6 +21,9 @@ export class PromoManager {
   }
 
   async applyPromo(applyPromoParams: ApplyPromoParams) {
+    if (!applyPromoParams.title) {
+      throw new AppError(CommonErrors.BadRequest, 'The "title" param is required.');
+    }
     return await this.service.applyPromo(applyPromoParams);
   }
 }

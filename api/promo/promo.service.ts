@@ -1,3 +1,4 @@
+import { AppError, CommonErrors } from '@helper/app-error';
 import { PromoModel } from '@models/DynamoDB/promo.model';
 import { ApplyPromoParams, CreatePromoParams } from './promo.interfase';
 
@@ -6,14 +7,14 @@ export class PromoService {
     try {
       return await PromoModel.create(params);
     } catch (e) {
-      console.log(e);
+      throw new AppError(CommonErrors.InternalServerError, e.message);
     }
   }
   async getPromos() {
     try {
       return await PromoModel.scan().all().exec();
     } catch (e) {
-      console.log(e);
+      throw new AppError(CommonErrors.InternalServerError, e.message);
     }
   }
   async applyPromo(params: ApplyPromoParams) {
@@ -27,7 +28,7 @@ export class PromoService {
         return 1;
       }
     } catch (e) {
-      console.log(e);
+      throw new AppError(CommonErrors.InternalServerError, e.message);
     }
   }
 }
